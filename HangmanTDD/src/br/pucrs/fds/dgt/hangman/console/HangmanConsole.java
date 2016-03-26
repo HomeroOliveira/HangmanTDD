@@ -1,8 +1,11 @@
-package br.pucrs.fds.dgt.hangman;
+package br.pucrs.fds.dgt.hangman.console;
 
 import java.util.Scanner;
 
-public class HangmanMain {
+import br.pucrs.fds.dgt.hangman.Hangman;
+import br.pucrs.fds.dgt.hangman.HangmanState;
+
+public class HangmanConsole {
     private static Scanner in = new Scanner(System.in);
 
     public static void main(String[] args) {

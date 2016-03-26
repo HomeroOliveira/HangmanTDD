@@ -1,9 +1,11 @@
 
 package br.pucrs.fds.dgt.hangman;
 
+import java.util.Objects;
+
 /**
  * @author Homero Oliveira
- * @author
+ * 
  *
  */
 public class Hangman {
@@ -26,19 +28,27 @@ public class Hangman {
 	state = HangmanState.GAMEON;
     }
 
+    /**
+     * Checa a string.
+     * 
+     * @param word
+     * @throws IllegalArgumentException
+     *             se o objeto é null ou se a string inicializada é com ""
+     */
     private void checkNullOrEmpty(String word) {
-	if (word == null || word.isEmpty())
+	if (Objects.isNull(word) || word.isEmpty())
 	    throw new IllegalArgumentException("A palavra não pode ser nula ou vazia!");
     }
 
+    /**
+     * Cria a representação da variavel secret exemplo: hangman == -------
+     * 
+     * @param secret
+     */
     private void initWord(String secret) {
 	for (int i = 0; i < secret.length(); i++) {
 	    word += "-";
 	}
-    }
-
-    public String getSecret() {
-	return secret;
     }
 
     /**
@@ -51,8 +61,7 @@ public class Hangman {
     public void setGuess(char guess) {
 	char guessLowerCase = Character.toLowerCase(guess);
 
-	if (misses.contains(Character.toString(guessLowerCase))||
-		     word.contains(Character.toString(guessLowerCase))) {
+	if (misses.contains(Character.toString(guessLowerCase)) || word.contains(Character.toString(guessLowerCase))) {
 	    throw new IllegalArgumentException("A letra já foi digitada");
 	}
 
@@ -106,11 +115,24 @@ public class Hangman {
 	tries--;
     }
 
+    /**
+     * @return secret
+     */
+    public String getSecret() {
+	return secret;
+    }
+
+    /**
+     * @return misses
+     */
     public String getMisses() {
 
 	return misses;
     }
 
+    /**
+     * @return word
+     */
     public String getWord() {
 	return word;
     }
@@ -137,7 +159,7 @@ public class Hangman {
      */
     public void setGuessWord(String word) {
 	checkNullOrEmpty(word);// Verifica se word é nula ou vazia
-	checkNotOnGame();// Verifica se o estado  não é GAMEON 
+	checkNotOnGame();// Verifica se o estado não é GAMEON
 
 	if (word.equalsIgnoreCase(secret)) {
 	    this.word = word;
