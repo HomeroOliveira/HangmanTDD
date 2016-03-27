@@ -1,7 +1,7 @@
 
 package br.pucrs.fds.dgt.hangman;
 
-import java.util.Objects;
+import br.pucrs.fds.dgt.hangman.Utils.StringUtils;
 
 /**
  * @author Homero Oliveira
@@ -19,25 +19,17 @@ public class Hangman {
     private int loses;
 
     public Hangman(String secret) {
-	checkNullOrEmpty(secret);
+	create(secret);
+    }
+
+    private void create(String secret) {
+	StringUtils.nonNullOrEmpty(secret);
 	this.secret = secret;
 	misses = "";
 	word = "";
 	initWord(secret);
 	tries = 6;
 	state = HangmanState.GAMEON;
-    }
-
-    /**
-     * Checa a string.
-     * 
-     * @param word
-     * @throws IllegalArgumentException
-     *             se o objeto é null ou se a string inicializada é com ""
-     */
-    private void checkNullOrEmpty(String word) {
-	if (Objects.isNull(word) || word.isEmpty())
-	    throw new IllegalArgumentException("A palavra não pode ser nula ou vazia!");
     }
 
     /**
@@ -48,6 +40,20 @@ public class Hangman {
     private void initWord(String secret) {
 	for (int i = 0; i < secret.length(); i++) {
 	    word += "-";
+	}
+    }
+
+    private void checkState() {
+	if (word.equalsIgnoreCase(secret)) {
+	    state = HangmanState.WIN;
+	} else if (tries == 0) {
+	    state = HangmanState.LOSE;
+	}
+    }
+
+    private void notOnGame() {
+	if (!(onGame())) {
+	    throw new IllegalStateException("O jogo já acabou.");
 	}
     }
 
@@ -65,7 +71,7 @@ public class Hangman {
 	    throw new IllegalArgumentException("A letra já foi digitada");
 	}
 
-	checkNotOnGame();
+	notOnGame();
 
 	if (!secret.contains(String.valueOf(guessLowerCase))) {
 	    wrongGuess(guessLowerCase);
@@ -73,28 +79,6 @@ public class Hangman {
 	    goodGuess(guessLowerCase);
 	}
 	checkState();
-    }
-
-    private void checkState() {
-	if (isWin()) {
-	    state = HangmanState.WIN;
-	} else if (isLose()) {
-	    state = HangmanState.LOSE;
-	}
-    }
-
-    private boolean isWin() {
-	return word.equalsIgnoreCase(secret);
-    }
-
-    private boolean isLose() {
-	return tries == 0;
-    }
-
-    private void checkNotOnGame() {
-	if (!(onGame())) {
-	    throw new IllegalStateException("O jogo já acabou.");
-	}
     }
 
     private void goodGuess(char guessToLowerCase) {
@@ -113,6 +97,44 @@ public class Hangman {
 	    misses += ",";
 	misses += guessToLowerCase;
 	tries--;
+    }
+
+    /**
+     * Chutar a palavra se tiver errada perde o jogo, caso contrario ganha o
+     * jogo
+     * 
+     * @param word
+     */
+    public void setGuessWord(String word) {
+	StringUtils.nonNullOrEmpty(word);// Verifica se word é nula ou vazia
+	notOnGame();// Verifica se o estado não é GAMEON
+
+	if (word.equalsIgnoreCase(secret)) {
+	    this.word = word;
+	    state = HangmanState.WIN;
+	    wins++;
+	} else {
+	    tries = 0;
+	    state = HangmanState.LOSE;
+	    loses++;
+	}
+
+    }
+
+    /**
+     * Recomeça o jogo com outra palavra, mantendo wins e loses
+     * 
+     * @param word
+     */
+    public void resetHangman(String newSecret) {
+	create(newSecret);
+    }
+
+    /**
+     * @return Se o objeto está em GAMEON.
+     */
+    public boolean onGame() {
+	return state == HangmanState.GAMEON;
     }
 
     /**
@@ -152,43 +174,6 @@ public class Hangman {
     }
 
     /**
-     * Chutar a palavra se tiver errada perde o jogo, caso contrario ganha o
-     * jogo
-     * 
-     * @param word
-     */
-    public void setGuessWord(String word) {
-	checkNullOrEmpty(word);// Verifica se word é nula ou vazia
-	checkNotOnGame();// Verifica se o estado não é GAMEON
-
-	if (word.equalsIgnoreCase(secret)) {
-	    this.word = word;
-	    state = HangmanState.WIN;
-	    wins++;
-	} else {
-	    tries = 0;
-	    state = HangmanState.LOSE;
-	    loses++;
-	}
-
-    }
-
-    /**
-     * Recomeça o jogo com outra palavra, mantendo wins e loses
-     * 
-     * @param word
-     */
-    public void resetHangman(String newSecret) {
-	word = "";
-	misses = "";
-	tries = 6;
-	initWord(newSecret);
-	secret = newSecret;
-	state = HangmanState.GAMEON;
-
-    }
-
-    /**
      * @return wins
      */
     public int getWins() {
@@ -202,10 +187,4 @@ public class Hangman {
 	return loses;
     }
 
-    /**
-     * @return Se o objeto está em GAMEON.
-     */
-    public boolean onGame() {
-	return state == HangmanState.GAMEON;
-    }
 }
