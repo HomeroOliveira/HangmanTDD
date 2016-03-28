@@ -85,14 +85,14 @@ public class Hangman {
     private void goodGuess(char guess) {
 	for (int i = 0; i < secret.length(); i++) {
 	    if (secret.charAt(i) == guess) {
-		word.replace(i, i, Character.toString(guess));
+		word.setCharAt(i, guess);
 	    }
 	}
 
     }
 
     private void wrongGuess(char guess) {
-	if (!getWord().isEmpty()) {
+	if (!getMisses().isEmpty()) {
 	    misses.append(",");
 	}
 	misses.append(guess);

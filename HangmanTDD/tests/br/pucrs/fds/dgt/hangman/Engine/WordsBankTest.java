@@ -1,4 +1,4 @@
-package br.pucrs.fds.dgt.hangman;
+package br.pucrs.fds.dgt.hangman.Engine;
 
 import static org.junit.Assert.*;
 
