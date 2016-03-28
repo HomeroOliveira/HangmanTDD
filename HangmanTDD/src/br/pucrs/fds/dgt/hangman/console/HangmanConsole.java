@@ -1,9 +1,9 @@
-package br.pucrs.fds.dgt.hangman.console;
+package br.pucrs.fds.dgt.hangman.Console;
 
 import java.util.Scanner;
 
-import br.pucrs.fds.dgt.hangman.Hangman;
-import br.pucrs.fds.dgt.hangman.HangmanState;
+import br.pucrs.fds.dgt.hangman.Engine.Hangman;
+import br.pucrs.fds.dgt.hangman.Engine.HangmanState;
 
 public class HangmanConsole {
     private static Scanner in = new Scanner(System.in);

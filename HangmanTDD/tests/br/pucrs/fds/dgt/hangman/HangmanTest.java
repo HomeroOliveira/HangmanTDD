@@ -5,6 +5,9 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import br.pucrs.fds.dgt.hangman.Engine.Hangman;
+import br.pucrs.fds.dgt.hangman.Engine.HangmanState;
+
 public class HangmanTest {
 
     private Hangman game;

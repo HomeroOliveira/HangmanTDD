@@ -5,6 +5,8 @@ import static org.junit.Assert.*;
 import org.junit.Before;
 import org.junit.Test;
 
+import br.pucrs.fds.dgt.hangman.Engine.WordsBank;
+
 public class WordsBankTest {
 
     private WordsBank wb;

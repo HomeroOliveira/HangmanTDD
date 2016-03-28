@@ -18,9 +18,9 @@ import javax.swing.LayoutStyle.ComponentPlacement;
 import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
-import br.pucrs.fds.dgt.hangman.Hangman;
-import br.pucrs.fds.dgt.hangman.HangmanState;
-import br.pucrs.fds.dgt.hangman.WordsBank;
+import br.pucrs.fds.dgt.hangman.Engine.Hangman;
+import br.pucrs.fds.dgt.hangman.Engine.HangmanState;
+import br.pucrs.fds.dgt.hangman.Engine.WordsBank;
 
 public class JHangmanFrame extends JFrame {
 
@@ -97,7 +97,7 @@ public class JHangmanFrame extends JFrame {
 	lblHangman = new JLabel("");
 	lblHangman.setForeground(Color.WHITE);
 	lblHangman.setBackground(Color.WHITE);
-	lblHangman.setIcon(createImageIcon(0));
+	lblHangman.setIcon(createHangamanImage(0));
 	GroupLayout gl_pnlImage = new GroupLayout(pnlImage);
 	gl_pnlImage.setHorizontalGroup(
 		gl_pnlImage.createParallelGroup(Alignment.TRAILING).addGroup(gl_pnlImage.createSequentialGroup()
@@ -136,6 +136,11 @@ public class JHangmanFrame extends JFrame {
 	JLabel lblLength = new JLabel("Length:");
 
 	JButton btnTryWord = new JButton("Try Word");
+	btnTryWord.addActionListener(new ActionListener() {
+	    public void actionPerformed(ActionEvent e) {
+		btnTryWord_actionPerformed(e);
+	    }
+	});
 
 	lblLengthValue = new JLabel("");
 	lblLengthValue.setHorizontalAlignment(SwingConstants.CENTER);
@@ -200,7 +205,7 @@ public class JHangmanFrame extends JFrame {
 	contentPane.setLayout(gl_contentPane);
     }
 
-    private ImageIcon createImageIcon(int num) {
+    private ImageIcon createHangamanImage(int num) {
 	return new ImageIcon(
 		JHangmanFrame.class.getResource("/br/pucrs/fds/dgt/hangman/GUI/images/Hangman-" + num + ".png"));
     }
@@ -222,15 +227,23 @@ public class JHangmanFrame extends JFrame {
 	    }
 	}
 	txtfldGuess.setText("");
-	
-	if(game.getState() == HangmanState.WIN){
+
+	resultGame();
+    }
+
+    protected void btnTryWord_actionPerformed(ActionEvent e) {
+
+    }
+
+    private void resultGame() {
+	if (game.getState() == HangmanState.WIN) {
 	    int dialog = JOptionPane.showConfirmDialog(this, "Você Ganho\nQuer continuar?");
-	    if(JOptionPane.OK_OPTION == dialog){
+	    if (JOptionPane.OK_OPTION == dialog) {
 		JOptionPane.showMessageDialog(this, "teste");
-	    }else{
+	    } else {
 		System.exit(0);
 	    }
-	    
+
 	}
     }
 
@@ -238,8 +251,9 @@ public class JHangmanFrame extends JFrame {
 	int tries = game.getTries();
 	if (tries != Integer.parseInt(lblTriesValue.getText())) {
 	    lblTriesValue.setText(Integer.toString(tries));
-	    lblHangman.setIcon(createImageIcon(6 - tries));
+	    lblHangman.setIcon(createHangamanImage(6 - tries));
 	    lblMissesValue.setText(game.getMisses());
 	}
     }
+
 }
