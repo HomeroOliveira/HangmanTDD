@@ -6,7 +6,6 @@ import br.pucrs.fds.dgt.hangman.Utils.StringUtils;
 /**
  * @author Homero Oliveira
  * 
- *
  */
 public class Hangman {
 
@@ -19,10 +18,10 @@ public class Hangman {
     private int loses;
 
     public Hangman(String secret) {
-	create(secret);
+	defaultConstructor(secret);
     }
 
-    private void create(String secret) {
+    private void defaultConstructor(String secret) {
 	StringUtils.nonNullOrEmpty(secret);
 	this.secret = secret;
 	misses = new StringBuilder();
@@ -33,7 +32,8 @@ public class Hangman {
     }
 
     /**
-     * Cria a representação da variavel secret exemplo: hangman == -------
+     * Cria a representação da variavel secret 
+     * exemplo: hangman == -------
      * 
      * @param secret
      */
@@ -100,10 +100,12 @@ public class Hangman {
     }
 
     /**
-     * Chutar a palavra se tiver errada perde o jogo, caso contrario ganha o
+     * Chuta a palavra se tiver errada perde o jogo, caso contrario ganha o
      * jogo
      * 
      * @param word
+     * @throws IllegalArgumentException Se a word for nula ou vazia
+     * @throws IllegalStateException Se o jogador já perdeu ou ganho
      */
     public void setGuessWord(String word) {
 	StringUtils.nonNullOrEmpty(word);// Verifica se word é nula ou vazia
@@ -127,7 +129,7 @@ public class Hangman {
      * @param word
      */
     public void resetHangman(String newSecret) {
-	create(newSecret);
+	defaultConstructor(newSecret);
     }
 
     /**

@@ -6,12 +6,12 @@ public class StringUtils {
     /**
      * Checa a string.
      * 
-     * @param word
+     * @param string
      * @throws IllegalArgumentException
      *             se o objeto é null ou se a string inicializada é com ""
      */
-    public static void nonNullOrEmpty(String word) {
-	if (Objects.isNull(word) || word.isEmpty())
-	    throw new IllegalArgumentException("A palavra não pode ser nula ou vazia!");
+    public static void nonNullOrEmpty(String string) {
+	if (Objects.isNull(string) || string.isEmpty())
+	    throw new IllegalArgumentException("Não pode ser nula ou vazia!");
     }
 }

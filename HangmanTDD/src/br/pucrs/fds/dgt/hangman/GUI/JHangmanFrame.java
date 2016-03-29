@@ -226,24 +226,55 @@ public class JHangmanFrame extends JFrame {
 		JOptionPane.showMessageDialog(this, ex.getMessage());
 	    }
 	}
-	txtfldGuess.setText("");
-
+	cleanTextField();
 	resultGame();
     }
 
-    protected void btnTryWord_actionPerformed(ActionEvent e) {
+    private void cleanTextField() {
+	txtfldGuess.setText("");
+    }
 
+    protected void btnTryWord_actionPerformed(ActionEvent e) {
+	String word = txtfldGuess.getText();
+	try {
+	    game.setGuessWord(word);
+	    updateInfo();
+	} catch (IllegalArgumentException ex) {
+	    JOptionPane.showMessageDialog(this, ex.getMessage());
+	} catch (IllegalStateException ex) {
+	    JOptionPane.showMessageDialog(this, ex.getMessage());
+	}
+	cleanTextField();
+	resultGame();
     }
 
     private void resultGame() {
-	if (game.getState() == HangmanState.WIN) {
-	    int dialog = JOptionPane.showConfirmDialog(this, "Você Ganho\nQuer continuar?");
-	    if (JOptionPane.OK_OPTION == dialog) {
-		JOptionPane.showMessageDialog(this, "teste");
-	    } else {
-		System.exit(0);
-	    }
 
+	switch (game.getState()) {
+	case WIN:
+	    showMessageResult("Parabens voce ganho.Quer continuar?");
+	    break;
+
+	case LOSE:
+	    showMessageResult("Game over voce perdeu.Quer continuar?");
+	    break;
+	}
+
+
+    }
+
+    private void showMessageResult(String message) {
+	int dialog = JOptionPane.showConfirmDialog(this, message);
+	if (JOptionPane.OK_OPTION == dialog) {
+	    JOptionPane.showMessageDialog(this, "...Sorteando palavra...");
+	} else {
+	    try {
+		Thread.sleep(1000);
+	    } catch (InterruptedException e) {
+		e.printStackTrace();
+	    }
+	    JOptionPane.showMessageDialog(this, "...Saindo do  jogo...");
+	    System.exit(0);
 	}
     }
 
