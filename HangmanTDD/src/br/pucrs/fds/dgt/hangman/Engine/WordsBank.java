@@ -29,7 +29,9 @@ public class WordsBank {
     public String getWord() {
 	if (!words.isEmpty()) {
 	    Collections.shuffle(words, new Random(words.size()));
-	    return words.get(0);
+	    String word = words.get(0);
+	    words.remove(word);
+	    return word;
 	}
 	return EMPTY;
     }

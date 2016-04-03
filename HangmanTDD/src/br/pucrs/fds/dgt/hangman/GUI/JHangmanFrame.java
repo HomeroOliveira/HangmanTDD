@@ -4,6 +4,8 @@ import java.awt.Color;
 import java.awt.EventQueue;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
+import java.io.IOException;
+import java.io.InputStream;
 
 import javax.swing.GroupLayout;
 import javax.swing.GroupLayout.Alignment;
@@ -19,7 +21,6 @@ import javax.swing.SwingConstants;
 import javax.swing.border.EmptyBorder;
 
 import br.pucrs.fds.dgt.hangman.Engine.Hangman;
-import br.pucrs.fds.dgt.hangman.Engine.HangmanState;
 import br.pucrs.fds.dgt.hangman.Engine.WordsBank;
 
 public class JHangmanFrame extends JFrame {
@@ -58,10 +59,14 @@ public class JHangmanFrame extends JFrame {
      * Create the frame.
      */
     public JHangmanFrame() {
-	// wordsBank = new
-	// WordsBank(Paths.get("/br/pucrs/fds/dgt/hangman/words.txt"));
-	// game = new Hangman(wordsBank.getWord());
-	game = new Hangman("hangman");
+	wordsBank = new WordsBank();
+	InputStream inputStream = ClassLoader.getSystemResourceAsStream("br/pucrs/fds/dgt/hangman/Resource/words.txt");
+	try {
+	    wordsBank.setInputStream(inputStream);
+	} catch (IOException e) {
+	    e.printStackTrace();
+	}
+	game = new Hangman(wordsBank.getWord());
 	initComponents();
     }
 
@@ -249,7 +254,7 @@ public class JHangmanFrame extends JFrame {
     }
 
     private void resultGame() {
-
+	updateInfo();
 	switch (game.getState()) {
 	case WIN:
 	    showMessageResult("Parabens voce ganho.Quer continuar?");
@@ -258,8 +263,11 @@ public class JHangmanFrame extends JFrame {
 	case LOSE:
 	    showMessageResult("Game over voce perdeu.Quer continuar?");
 	    break;
-	}
 
+	case GAMEON:// Nunca vai cair neste estado!!
+	    break;
+
+	}
 
     }
 
@@ -267,6 +275,7 @@ public class JHangmanFrame extends JFrame {
 	int dialog = JOptionPane.showConfirmDialog(this, message);
 	if (JOptionPane.OK_OPTION == dialog) {
 	    JOptionPane.showMessageDialog(this, "...Sorteando palavra...");
+	    game.resetHangman(wordsBank.getWord());
 	} else {
 	    try {
 		Thread.sleep(1000);
