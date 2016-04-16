@@ -31,13 +31,13 @@ public class JHangmanFrame extends JFrame {
     private static final long serialVersionUID = 477162628901682495L;
     private JPanel contentPane;
     private JTextField txtfldGuess;
-    private Hangman game;
     private JLabel lblTriesValue;
     private JLabel lblHangman;
-    private WordsBank wordsBank;
     private JLabel lblMissesValue;
     private JLabel lblWordValue;
     private JLabel lblLengthValue;
+    private Hangman game;
+    private WordsBank wordsBank;
 
     /**
      * Launch the application.
@@ -60,7 +60,8 @@ public class JHangmanFrame extends JFrame {
      */
     public JHangmanFrame() {
 	wordsBank = new WordsBank();
-	InputStream inputStream = ClassLoader.getSystemResourceAsStream("br/pucrs/fds/dgt/hangman/Resource/words.txt");
+	InputStream inputStream = ClassLoader
+		.getSystemResourceAsStream("br/pucrs/fds/dgt/hangman/Resource/words.txt");
 	try {
 	    wordsBank.setInputStream(inputStream);
 	} catch (IOException e) {
@@ -103,6 +104,7 @@ public class JHangmanFrame extends JFrame {
 	lblHangman.setForeground(Color.WHITE);
 	lblHangman.setBackground(Color.WHITE);
 	lblHangman.setIcon(createHangamanImage(0));
+	
 	GroupLayout gl_pnlImage = new GroupLayout(pnlImage);
 	gl_pnlImage.setHorizontalGroup(
 		gl_pnlImage.createParallelGroup(Alignment.TRAILING).addGroup(gl_pnlImage.createSequentialGroup()
@@ -113,11 +115,8 @@ public class JHangmanFrame extends JFrame {
 	pnlImage.setLayout(gl_pnlImage);
 
 	JLabel lblWord = new JLabel("Word:");
-
 	JLabel lblGuess = new JLabel("Guess:");
-
 	JLabel lblMisses = new JLabel("Misses");
-
 	JLabel lblTries = new JLabel("Tries");
 
 	JButton btnTry = new JButton("Try Letter");
@@ -135,8 +134,7 @@ public class JHangmanFrame extends JFrame {
 	lblTriesValue = new JLabel("6");
 	lblTriesValue.setHorizontalAlignment(SwingConstants.CENTER);
 
-	lblWordValue = new JLabel("");
-	lblWordValue.setText(game.getWord());
+	lblWordValue = new JLabel(game.getWord());
 
 	JLabel lblLength = new JLabel("Length:");
 
